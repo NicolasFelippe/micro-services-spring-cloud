@@ -4,6 +4,7 @@ import com.devsuperior.hrworker.entities.Worker;
 import com.devsuperior.hrworker.repositories.WorkerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +25,9 @@ public class WorkerResource {
 
     private final WorkerRepository workerRepository;
 
+    @Value("${test.config}")
+    private String testConfig;
+
     public WorkerResource(Environment env, WorkerRepository workerRepository) {
         this.env = env;
         this.workerRepository = workerRepository;
@@ -39,6 +43,12 @@ public class WorkerResource {
     public ResponseEntity<Worker> findById(@PathVariable("id") Long id) {
         Optional<Worker> worker = workerRepository.findById(id);
         return ResponseEntity.ok(worker.orElse(null));
+    }
+
+    @GetMapping("/configs")
+    public ResponseEntity<String> getConfigs() {
+        logger.info("Teste config"+ testConfig);
+        return ResponseEntity.ok(testConfig);
     }
 
 }
