@@ -1,5 +1,6 @@
 package com.devsuperior.hroauth.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -14,6 +15,11 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 @Configuration
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
+
+    @Value("${oauth.client.name}")
+    private String MYAPPNAME;
+    @Value("${oauth.client.secret}")
+    private String MYAPPSECRET;
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final JwtAccessTokenConverter jwtAccessTokenConverter;
@@ -39,8 +45,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients
                 .inMemory()
-                .withClient("myappname123")
-                .secret(bCryptPasswordEncoder.encode("myappsecret123"))
+                .withClient(MYAPPNAME)
+                .secret(bCryptPasswordEncoder.encode(MYAPPSECRET))
                 .scopes("read", "write")
                 .authorizedGrantTypes("password")
                 .accessTokenValiditySeconds(86400);
