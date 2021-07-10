@@ -1,6 +1,7 @@
 package com.devsuperior.hruser.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -11,8 +12,15 @@ public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotNull
     private String name;
+
+    @Column(unique = true)
+    @NotNull
     private String email;
+
+    @NotNull
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
