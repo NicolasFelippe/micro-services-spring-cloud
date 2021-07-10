@@ -32,8 +32,8 @@ public class UserResource {
         return ResponseEntity.ok(user.orElse(null));
     }
 
-    @GetMapping("/search")
-    public ResponseEntity<User> findByEmail(@RequestParam String email) {
+    @GetMapping("/search/{email}")
+    public ResponseEntity<User> findByEmail(@PathVariable("email") String email) {
         Optional<User> user = userRepository.findByEmail(email);
         if(user.isPresent()){
             return ResponseEntity.ok(user.get());
