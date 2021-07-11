@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Table(name = "users")
 public class User implements Serializable {
 
     @Id
@@ -24,10 +25,13 @@ public class User implements Serializable {
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_role",
+    @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
+
+    public User() {
+    }
 
     public User(Long id, String name, String email, String password) {
         this.id = id;
@@ -38,9 +42,6 @@ public class User implements Serializable {
 
     public Set<Role> getRoles() {
         return roles;
-    }
-
-    public User() {
     }
 
     public Long getId() {
